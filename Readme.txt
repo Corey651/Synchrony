@@ -12,6 +12,9 @@
 	258 (TR) x 498 (Regions).  The ages for each of these subjects is contained in
 	Sub_Ages.mat
 
+*** To produce Age_Data, run Combine_Age_Data.m to combine the four parts of age data
+	together into a single file.
+
 3.  Sub_Ages has the ages of each subject (in Camcan, 636 entries)
 
 4.  Flip_Ind (or more specifically the first 16 entries) contains the 

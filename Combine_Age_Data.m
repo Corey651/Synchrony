@@ -1,0 +1,10 @@
+load('Age_Data_1.mat')
+load('Age_Data_2.mat')
+load('Age_Data_3.mat')
+load('Age_Data_4.mat')
+Age_Data=cell(636,1);
+Age_Data(1:150)=Age_Data_1;
+Age_Data(151:300)=Age_Data_2;
+Age_Data(301:450)=Age_Data_3;
+Age_Data(451:636)=Age_Data_4;
+save('Age_Data.mat','Age_Data')
