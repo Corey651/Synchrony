@@ -35,7 +35,7 @@ for i=1:length(t)
     end
 end
 
-% Supplementary Figure ZZZ Plots FC_Corr in two different way.
+% Supplementary Figure 1 Plots FC_Corr in two different way.
 
 % a.  The correlation between both kinds of FC was plotted vs the window
 % size.  The error bars are the standard deviation across subjects (not the

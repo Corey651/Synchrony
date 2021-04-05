@@ -3,7 +3,7 @@
 %Camcan Lifespan data, N=636, length 258 TR
 
 %Here we do calculations with the raw lambda value (as opposed to
-%Lambda=(lambda-lambda_c)/lambda).
+%Lambda=(lambda-lambda_c)/lambda_c).
 
 
 %% Binarizing the Data
@@ -39,8 +39,7 @@ for i=1:636
 end
 %%
 
-%Here we fit Lambda (Lam) using the probability distribution Supplementary
-%Eq XYZ
+%Here we fit Lambda (Lam) using the probability distribution Eq 5
 
 lamglu=zeros(1,12);            
 lamket=zeros(1,12);
@@ -346,7 +345,7 @@ Errk=(Errtopk-Errbotk)/2;
 difErr=sqrt(Errg.^2+Errk.^2)/(lam_crit);            %standard error propagation for differences
                                                     %rescaling was because of rescaling lambda->Lambda
                                                     
-%difErr gives the errorbars in Supplementary Fig ZZ, where the
+%difErr gives the errorbars in Fig 5, where the
 %subjects were ordered by difLam.
 
 %% Find Int and Seg and find their ratios vs Lambda
@@ -417,3 +416,239 @@ pseg=[pseg,psegd];
 
 pint=pint./(pint+pseg);
 pseg=1-pint;
+
+%% Plot typical fits (for lambda above, below, and at the critical point)
+load('lamket.mat')
+load('lamglu.mat')
+load('lamage.mat')
+
+
+% Age 32
+
+figure
+
+annotation('textarrow','Position',[.0675,0.085,0,.15],'String','   P(s)','HeadWidth',5,'HeadLength',5,'HorizontalAlignment','left','VerticalAlignment','cap','TextRotation',90,'Textmargin',10)
+annotation('doublearrow','Position',[.0250,0.085,.075,0],'Head1Width',5,'Head2Width',5,'Head1Length',5,'Head2Length',5)
+annotation('textbox',[.0475,0.055,0,.05],'String','s','FitBoxToText','on','EdgeColor','none')
+
+Lamplot=lamage(120);
+Q=120;
+pfit=zeros(1,499);
+k=0:1:498;
+v=(2*k-498)/498;  %all values of s
+vv=v.^2; 
+nck=zeros(1,499);
+for i=1:499
+    nck(i)=nchoosek(498,k(i));
+    pfit(i)=nck(i)*exp(Lamplot*vv(i)*498^2);
+end
+countsp=round(pfit);
+[countsd,Edges]=histcounts(BAge(:,Q));
+countspnew=zeros(1,length(Edges)-1);
+for i=1:length(countspnew)
+    k=ceil(Edges(i)*498);
+    if mod(k,2)==1
+        k=k+1;
+    end
+    while k<= floor(Edges(i+1)*498)
+        countspnew(i)=countspnew(i)+countsp((k+500)/2);
+        k=k+2;
+    end
+end
+
+Edges1=Edges;
+countspnew1=countspnew;
+
+subplot(2,3,1)
+hold on
+histogram('BinEdges',Edges1,'BinCounts',countspnew1,'normalization','probability','DisplayStyle','stairs');
+histogram(BAge(:,Q),'normalization','probability','DisplayStyle','stairs')
+xlabel('Age 32')
+
+% Age 48
+
+Lamplot=lamage(250);
+Q=250;
+pfit=zeros(1,499);
+k=0:1:498;
+v=(2*k-498)/498;  %all values of s
+vv=v.^2; 
+nck=zeros(1,499);
+for i=1:499
+    nck(i)=nchoosek(498,k(i));
+    pfit(i)=nck(i)*exp(Lamplot*vv(i)*498^2);
+end
+countsp=round(pfit);
+[countsd,Edges]=histcounts(BAge(:,Q));
+countspnew=zeros(1,length(Edges)-1);
+for i=1:length(countspnew)
+    k=ceil(Edges(i)*498);
+    if mod(k,2)==1
+        k=k+1;
+    end
+    while k<= floor(Edges(i+1)*498)
+        countspnew(i)=countspnew(i)+countsp((k+500)/2);
+        k=k+2;
+    end
+end
+
+Edges2=Edges;
+countspnew2=countspnew;
+
+subplot(2,3,2)
+hold on
+histogram('BinEdges',Edges2,'BinCounts',countspnew2,'normalization','probability','DisplayStyle','stairs');
+histogram(BAge(:,Q),'normalization','probability','DisplayStyle','stairs')
+xlabel('Age 48')
+
+
+% Age 63
+Lamplot=lamage(450);
+Q=450;
+pfit=zeros(1,499);
+k=0:1:498;
+v=(2*k-498)/498;  %all values of s
+vv=v.^2; 
+nck=zeros(1,499);
+for i=1:499
+    nck(i)=nchoosek(498,k(i));
+    pfit(i)=nck(i)*exp(Lamplot*vv(i)*498^2);
+end
+countsp=round(pfit);
+[countsd,Edges]=histcounts(BAge(:,Q));
+countspnew=zeros(1,length(Edges)-1);
+for i=1:length(countspnew)
+    k=ceil(Edges(i)*498);
+    if mod(k,2)==1
+        k=k+1;
+    end
+    while k<= floor(Edges(i+1)*498)
+        countspnew(i)=countspnew(i)+countsp((k+500)/2);
+        k=k+2;
+    end
+end
+
+Edges3=Edges;
+countspnew3=countspnew;
+
+subplot(2,3,4)
+hold on
+histogram('BinEdges',Edges3,'BinCounts',countspnew3,'normalization','probability','DisplayStyle','stairs');
+histogram(BAge(:,Q),'normalization','probability','DisplayStyle','stairs')
+xlabel('Age 63')
+
+
+
+% Age 81
+
+Lamplot=lamage(600); 
+Q=600;
+pfit=zeros(1,499);
+k=0:1:498;
+v=(2*k-498)/498;  %all values of s
+vv=v.^2; 
+nck=zeros(1,499);
+for i=1:499
+    nck(i)=nchoosek(498,k(i));
+    pfit(i)=nck(i)*exp(Lamplot*vv(i)*498^2);
+end
+countsp=round(pfit);
+[countsd,Edges]=histcounts(BAge(:,Q));
+countspnew=zeros(1,length(Edges)-1);
+for i=1:length(countspnew)
+    k=ceil(Edges(i)*498);
+    if mod(k,2)==1
+        k=k+1;
+    end
+    while k<= floor(Edges(i+1)*498)
+        countspnew(i)=countspnew(i)+countsp((k+500)/2);
+        k=k+2;
+    end
+end
+
+Edges4=Edges;
+countspnew4=countspnew;
+
+subplot(2,3,5)
+hold on
+histogram('BinEdges',Edges4,'BinCounts',countspnew4,'normalization','probability','DisplayStyle','stairs');
+histogram(BAge(:,Q),'normalization','probability','DisplayStyle','stairs')
+xlabel('Age 81')
+
+
+% Glucose
+
+Q=10;
+
+Lamplot=lamglu(Q);
+pfit=zeros(1,499);
+
+k=0:1:498;
+v=(2*k-498)/498;  %all values of s
+vv=v.^2; 
+nck=zeros(1,499);
+for i=1:499
+    nck(i)=nchoosek(498,k(i));
+    pfit(i)=nck(i)*exp(Lamplot*vv(i)*498^2);
+end
+countsp=round(pfit);
+[countsd,Edges]=histcounts(Bglu(:,Q));
+countspnew=zeros(1,length(Edges)-1);
+for i=1:length(countspnew)
+    k=ceil(Edges(i)*498);
+    if mod(k,2)==1
+        k=k+1;
+    end
+    while k<= floor(Edges(i+1)*498)
+        countspnew(i)=countspnew(i)+countsp((k+500)/2);
+        k=k+2;
+    end
+end
+
+Edges5=Edges;
+countspnew5=countspnew;
+
+subplot(2,3,3)
+hold on
+histogram('BinEdges',Edges5,'BinCounts',countspnew5,'normalization','probability','DisplayStyle','stairs');
+histogram(Bglu(:,Q),'normalization','probability','DisplayStyle','stairs')
+xlabel('Glucose')
+
+% Ketones
+
+Q=10;
+
+Lamplot=lamket(Q);
+pfit=zeros(1,499);
+
+k=0:1:498;
+v=(2*k-498)/498;  %all values of s
+vv=v.^2; 
+nck=zeros(1,499);
+for i=1:499
+    nck(i)=nchoosek(498,k(i));
+    pfit(i)=nck(i)*exp(Lamplot*vv(i)*498^2);
+end
+countsp=round(pfit);
+[countsd,Edges]=histcounts(Bket(:,Q));
+countspnew=zeros(1,length(Edges)-1);
+for i=1:length(countspnew)
+    k=ceil(Edges(i)*498);
+    if mod(k,2)==1
+        k=k+1;
+    end
+    while k<= floor(Edges(i+1)*498)
+        countspnew(i)=countspnew(i)+countsp((k+500)/2);
+        k=k+2;
+    end
+end
+
+Edges6=Edges;
+countspnew6=countspnew;
+
+subplot(2,3,6)
+hold on
+histogram('BinEdges',Edges6,'BinCounts',countspnew6,'normalization','probability','DisplayStyle','stairs');
+histogram(Bket(:,Q),'normalization','probability','DisplayStyle','stairs')
+xlabel('Ketones')
+

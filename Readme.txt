@@ -1,4 +1,4 @@
-%Instructions for use of Code
+This code accompanies the publication "Metabolism modulates network synchrony in the aging brain".
 
 1.  Diet_Data has the pre-formated matlab data (Diet experiment) in the form of 
 	a 12x2 cell array, corresponding to our 12 subjects and our two diets
